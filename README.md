@@ -1,6 +1,13 @@
-# El Proyecte Grande - Design
+# Completed tasks
 
-## Story
+[Product Design Document](https://docs.google.com/document/d/1Su0q0u17oY_mI8cetto7kreBt9q3LdmIQ_UDE27C1qU/edit?usp=sharing)
+
+
+
+# Task description
+## El Proyecte Grande - Design
+
+### Story
 
 As your Codecool Journey comes closer to its conclusion, the time has come for a final Teamwork Project, 
 that will put to test all of the programming skills you've obtained so far (and some new ones you will learn on the way)!
@@ -15,7 +22,7 @@ adding new features, technologies, etc.
 
 ***¡Comience El Proyecte Grande!***
 
-## What are you going to learn?
+### What are you going to learn?
 
 - how to design IT products
 - how to design applications
@@ -24,7 +31,7 @@ adding new features, technologies, etc.
 - how a Design Critique looks like
 - how to showcase product designs and ideas without actually making one
 
-## Tasks
+### Tasks
 
 1. The first phase/sprint of El Proyecte Grande focuses on designing the product, before the development work begins.
     - All the requirements from tasks below are fulfilled during this sprint.
@@ -80,15 +87,15 @@ adding new features, technologies, etc.
     - The team answers all the questions the audience has to ask about their Product.
     - The team collects feedback from the audience about their Product and draws conclusions from it.
 
-## General requirements
+### General requirements
 
 None
 
-## Hints
+### Hints
 
 
 
-## Background materials
+### Background materials
 
 - <i class="far fa-exclamation"></i> [Definition of Done](project/curriculum/materials/pages/methodology/definition-of-done.md)
 - <i class="far fa-exclamation"></i> [Product Design](https://www.smashingmagazine.com/2018/01/comprehensive-guide-product-design/)
