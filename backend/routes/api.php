@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,25 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+//PRODUCTS
+//Visible without auth, show products to every visitor
+Route::get('/product', [ProductController::class, 'index']);
+Route::get('/product/{id}', [ProductController::class, 'show']);
+
+//Need admin privileges, handle the products
+Route::post('/product', [ProductController::class, 'store']);
+Route::patch('/product/{id}', [ProductController::class, 'update']);
+Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+
+
+//ORDERS
+//Need auth as regular user
+Route::post('/order', [OrderController::class, 'store']);
+
+//Admin can check, modify, delete the orders
+Route::get('/order', [OrderController::class, 'index']);
+Route::get('/order/{id}', [OrderController::class, 'show']);
+Route::patch('/order/{id}', [OrderController::class, 'update']);
+Route::delete('/order/{id}', [OrderController::class, 'destroy']);
