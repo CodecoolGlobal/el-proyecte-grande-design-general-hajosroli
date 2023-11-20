@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use Mockery\Exception;
 
 class ProductController extends Controller
 {
@@ -11,7 +13,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return Product::query()->get();
+        }
+        catch (Exception $exception){
+            echo 'Error: ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
@@ -27,7 +35,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            return Product::create($request->all());
+        }
+        catch (Exception $exception) {
+            echo 'Error saving product: ' . $exception->getMessage();
+            throw $exception;
+        }
+
     }
 
     /**
@@ -35,7 +50,13 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            return Product::find($id);
+        }
+        catch (Exception $exception) {
+            echo 'Error getting product with id: ' . $id . ', ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
@@ -51,14 +72,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $product = Product::find($id);
+            $product->update($request->all());
+            return $product;
+        }
+        catch (Exception $exception) {
+            echo 'Error updating product with id: ' . $id . ', ' . $exception->getMessage();
+            throw $exception;
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : void
     {
-        //
+        try {
+            Product::delete($id);
+        }
+        catch (Exception $exception) {
+            echo 'Error deleting product with id: ' . $id . ', ' . $exception->getMessage();
+        }
+
     }
 }
