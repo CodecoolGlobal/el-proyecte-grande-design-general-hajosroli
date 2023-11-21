@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,11 @@ Route::get('/order', [OrderController::class, 'index']);
 Route::get('/order/{id}', [OrderController::class, 'show']);
 Route::patch('/order/{id}', [OrderController::class, 'update']);
 Route::delete('/order/{id}', [OrderController::class, 'destroy']);
+
+
+//REGISTRATION
+Route::post('/register', [RegisterController::class, 'register']);
+
+
+//LOGIN
+Route::post('/login', [LoginController::class, 'login']);
