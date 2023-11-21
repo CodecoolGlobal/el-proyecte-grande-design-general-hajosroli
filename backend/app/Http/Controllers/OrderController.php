@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mockery\Exception;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -11,7 +13,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return Order::query()->get();
+        }
+        catch (Exception $exception) {
+            echo 'Error getting all orders: ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
@@ -27,7 +35,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            return Order::create($request->all());
+        }
+        catch (Exception $exception) {
+            echo 'Error saving a new order: ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
@@ -35,7 +49,13 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            return Order::find($id);
+        }
+        catch (Exception $exception) {
+            echo 'Error displaying order with id ' . $id . ', ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
@@ -51,14 +71,28 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $order = Order::find($id);
+            $order->update($request->all());
+            return $order;
+        }
+        catch (Exception $exception) {
+            echo 'Error updating order with id : ' . $id . ', ' . $exception->getMessage();
+            throw $exception;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : void
     {
-        //
+        try {
+            Order::delete($id);
+        }
+        catch (Exception $exception) {
+            echo 'Error deleting order with id: ' . $id . ', '. $exception->getMessage();
+            throw $exception;
+        }
     }
 }

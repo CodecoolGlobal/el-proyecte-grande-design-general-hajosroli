@@ -17,7 +17,7 @@ class ProductController extends Controller
             return Product::query()->get();
         }
         catch (Exception $exception){
-            echo 'Error: ' . $exception->getMessage();
+            echo 'Error getting all products: ' . $exception->getMessage();
             throw $exception;
         }
     }
