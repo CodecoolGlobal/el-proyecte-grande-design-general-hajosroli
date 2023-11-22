@@ -36,11 +36,17 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            return Order::create($request->all());
-        }
-        catch (Exception $exception) {
-            echo 'Error saving a new order: ' . $exception->getMessage();
-            throw $exception;
+            $data = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'status' => 'required|in:pending,processing,completed,cancelled',
+            ]);
+
+            $order = Order::create($data);
+
+            return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
+        } catch (\Exception $exception) {
+            // Log the error or handle it as needed
+            return response()->json(['error' => 'Error creating order: ' . $exception->getMessage()], 500);
         }
     }
 
