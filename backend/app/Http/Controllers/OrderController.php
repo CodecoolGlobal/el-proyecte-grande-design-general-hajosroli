@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 use App\Models\Order;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -36,16 +38,27 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = $request->validate([
-                'user_id' => 'required|exists:users,id',
+            // Validate the incoming request data
+            $request->validate([
                 'status' => 'required|in:pending,processing,completed,cancelled',
+                'product_ids' => 'required|array',
             ]);
 
-            $order = Order::create($data);
+            // Provide a logged-in user
+            $user = auth()->user();
 
-            return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
-        } catch (\Exception $exception) {
-            // Log the error or handle it as needed
+            // Create a new order
+            $order = Order::create([
+                'status' => $request->input('status'),
+                'user_id' => $user->id ?? 1
+            ]);
+
+            // Attach products to the order
+            $order->products()->attach($request->input('product_ids'));
+
+            return response()->json(['order' => $order], 201);
+        }
+        catch (Exception $exception) {
             return response()->json(['error' => 'Error creating order: ' . $exception->getMessage()], 500);
         }
     }
@@ -56,11 +69,10 @@ class OrderController extends Controller
     public function show(string $id)
     {
         try {
-            return Order::find($id);
+            return Order::findOrFail($id);
         }
         catch (Exception $exception) {
-            echo 'Error displaying order with id ' . $id . ', ' . $exception->getMessage();
-            throw $exception;
+            return response()->json(['error' => 'Error displaying order with id ' . $id . ', ' . $exception->getMessage()], 500) ;
         }
     }
 
@@ -78,27 +90,27 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $order = Order::find($id);
+            $order = Order::findOrFail($id);
             $order->update($request->all());
             return $order;
         }
         catch (Exception $exception) {
-            echo 'Error updating order with id : ' . $id . ', ' . $exception->getMessage();
-            throw $exception;
+            return response()->json(['error' => 'Error updating order with id : ' . $id . ', ' . $exception->getMessage()], 500);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) : void
+    public function destroy(string $id)
     {
         try {
-            Order::delete($id);
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response('Deleted', 200);
         }
         catch (Exception $exception) {
-            echo 'Error deleting order with id: ' . $id . ', '. $exception->getMessage();
-            throw $exception;
+            return response('Error deleting order with id: ' . $id . ', '. $exception->getMessage(), 500);
         }
     }
 }
