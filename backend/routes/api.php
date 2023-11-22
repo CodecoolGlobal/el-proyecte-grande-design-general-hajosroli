@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,14 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 //LOGIN
 Route::post('/login', [LoginController::class, 'login']);
+
+
+//USERS
+//Users can update their own data if logged in
+Route::patch('/user/{id}', [UserController::class, 'update']);
+//Users can delete themselves if logged in
+Route::delete('/user/{id}', [UserController::class, 'destroy']);
+//Admin can list, check, modify, delete users
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/{id}', [UserController::class, 'show']);
+//+patch and delete routes are reachable for admins as well
