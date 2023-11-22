@@ -90,7 +90,8 @@ class ProductController extends Controller
     public function destroy(string $id) : void
     {
         try {
-            Product::delete($id);
+            $product = Product::findOrFail($id);
+            $product->delete();
         }
         catch (Exception $exception) {
             echo 'Error deleting product with id: ' . $id . ', ' . $exception->getMessage();
