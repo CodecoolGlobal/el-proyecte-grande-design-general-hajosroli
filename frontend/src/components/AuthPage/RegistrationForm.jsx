@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useLogin } from '../../hooks/useLogin';
 import FloatingLabelInput from './FloatingLabelInput';
 import { useAxios } from '../../hooks/useAxios';
 
@@ -9,13 +8,13 @@ const RegistrationForm = () => {
         'email': '',
         'password': '',
     })
-    const axiosPost = useAxios();
+    const {axiosPost} = useAxios();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axiosPost('/api/register', formData);
+        const response = await axiosPost('api/register', formData);
         console.log(response); 
     }
 
