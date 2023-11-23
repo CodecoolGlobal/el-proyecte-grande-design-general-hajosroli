@@ -8,26 +8,28 @@ export const useLogin = () => {
     const [isLoading, setIsLoading] = useState(null);
     const navigate = useNavigate();
     const { dispatch } = useAuthContext();
-    const {http} = useAxios();
+    const {axiosPost} = useAxios();
 
-    const signIn = (formData) =>{
+    const signIn = async (formData) =>{
         setIsLoading(true);
         setError(null);
-
-        http.get('sanctum/csrf-cookie').then(response=>{
-            http.post('api/login', formData)
-            .then(response=>{
-            if (response.status === 200) {
-                localStorage.setItem('user', JSON.stringify(response.data['user']));
-                localStorage.setItem('authorization', JSON.stringify(response.data['access_token']));
-                dispatch({type: 'LOGIN', payload: {...response.data['user'], "token": response.data['access_token']}})
+        try {
+            const response = await axiosPost('api/Login', formData);
+            if (response.data.successful) {
+                const user = response.data.user;
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch({type: 'LOGIN', payload: user});
                 navigate('/')
-            }
-            }).catch(error => {
-                setError(error.response.data['message'])
                 setIsLoading(false)
-            })
-        });
+            }else{
+                setError(response.data.message);
+                setIsLoading(false);
+            }
+        } catch (err) {
+            console.log(err);
+            setIsLoading(false)
+        }
+
     }
     return {signIn, error, isLoading}
 }

@@ -25,7 +25,7 @@ const AuthenticationPage = () => {
                     </div>
                     <div className='w-1/2'>
                         {displayLogin && <LoginForm />}
-                        {!displayLogin && <RegistrationForm />}
+                        {!displayLogin && <RegistrationForm setDisplayLogin={setDisplayLogin} />}
                     </div>
                 </div>
             </div>
