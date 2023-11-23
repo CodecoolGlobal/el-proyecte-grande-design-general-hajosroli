@@ -14,7 +14,7 @@ const RegistrationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axiosPost('api/register', formData);
+        const response = await axiosPost('/api/Register', formData);
         console.log(response); 
     }
 
