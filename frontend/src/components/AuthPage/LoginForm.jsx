@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import FloatingLabelInput from './FloatingLabelInput'
-import { useLogin } from '../../hooks/useLogin'
 import { useAxios } from '../../hooks/useAxios'
 
 const LoginForm = () => {
