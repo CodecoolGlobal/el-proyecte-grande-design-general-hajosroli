@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import FloatingLabelInput from './FloatingLabelInput'
 import { useLogin } from '../../hooks/useLogin'
+import { useAxios } from '../../hooks/useAxios'
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({
         'email': '',
         'password': '',
     })
-    const {signIn, error, isLoading} = useLogin();
+    const {axiosPost} = useAxios();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        signIn(formData)
+        setIsLoading(true);
+        const response = await axiosPost('/api/Login', formData);
+        setIsLoading(false);
+        console.log(response); 
     }
 
     return (
