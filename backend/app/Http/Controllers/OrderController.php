@@ -19,8 +19,7 @@ class OrderController extends Controller
             return Order::query()->get();
         }
         catch (Exception $exception) {
-            echo 'Error getting all orders: ' . $exception->getMessage();
-            throw $exception;
+            return response('Error getting all orders: ' . $exception->getMessage(), 500);
         }
     }
 
@@ -59,7 +58,7 @@ class OrderController extends Controller
             return response()->json(['order' => $order], 201);
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error creating order: ' . $exception->getMessage()], 500);
+            return response('Error creating order: ' . $exception->getMessage(), 500);
         }
     }
 
@@ -72,7 +71,7 @@ class OrderController extends Controller
             return Order::findOrFail($id);
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error displaying order with id ' . $id . ', ' . $exception->getMessage()], 500) ;
+            return response('Error displaying order with id ' . $id . ', ' . $exception->getMessage(), 500) ;
         }
     }
 
@@ -95,7 +94,7 @@ class OrderController extends Controller
             return $order;
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error updating order with id : ' . $id . ', ' . $exception->getMessage()], 500);
+            return response('Error updating order with id : ' . $id . ', ' . $exception->getMessage(), 500);
         }
     }
 
