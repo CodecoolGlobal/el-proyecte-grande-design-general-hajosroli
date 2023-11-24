@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FloatingLabelInput from './FloatingLabelInput';
 import { useAxios } from '../../hooks/useAxios';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({setDisplayLogin}) => {
     const [formData, setFormData] = useState({
         'name': '',
         'email': '',
@@ -15,9 +15,15 @@ const RegistrationForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        const response = await axiosPost('/api/Register', formData);
+        try {
+            const response = await axiosPost('/api/Register', formData); 
+            if (response.status === 200) {
+                setDisplayLogin(true);
+            }
+        } catch (error) {
+            console.log(error)
+        }
         setIsLoading(false);
-        console.log(response); 
     }
 
     return (
