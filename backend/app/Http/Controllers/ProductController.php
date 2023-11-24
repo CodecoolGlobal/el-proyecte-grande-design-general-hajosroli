@@ -17,8 +17,7 @@ class ProductController extends Controller
             return Product::query()->get();
         }
         catch (Exception $exception){
-            echo 'Error getting all products: ' . $exception->getMessage();
-            throw $exception;
+            return response('Error getting all products: ' . $exception->getMessage(), 500);
         }
     }
 
@@ -39,8 +38,7 @@ class ProductController extends Controller
             return Product::create($request->all());
         }
         catch (Exception $exception) {
-            echo 'Error saving product: ' . $exception->getMessage();
-            throw $exception;
+            return response('Error saving product: ' . $exception->getMessage(), 500);
         }
 
     }
@@ -51,11 +49,10 @@ class ProductController extends Controller
     public function show(string $id)
     {
         try {
-            return Product::find($id);
+            return Product::findOrFail($id);
         }
         catch (Exception $exception) {
-            echo 'Error getting product with id: ' . $id . ', ' . $exception->getMessage();
-            throw $exception;
+            return response('Error getting product with id: ' . $id . ', ' . $exception->getMessage(), 500);
         }
     }
 
@@ -73,13 +70,12 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $product = Product::find($id);
+            $product = Product::findOrFail($id);
             $product->update($request->all());
             return $product;
         }
         catch (Exception $exception) {
-            echo 'Error updating product with id: ' . $id . ', ' . $exception->getMessage();
-            throw $exception;
+            return response('Error updating product with id: ' . $id . ', ' . $exception->getMessage(), 500);
         }
 
     }
@@ -87,14 +83,15 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) : void
+    public function destroy(string $id)
     {
         try {
             $product = Product::findOrFail($id);
             $product->delete();
+            return response('Deleted');
         }
         catch (Exception $exception) {
-            echo 'Error deleting product with id: ' . $id . ', ' . $exception->getMessage();
+            return response('Error deleting product with id: ' . $id . ', ' . $exception->getMessage(), 500);
         }
 
     }

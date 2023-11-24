@@ -15,9 +15,7 @@ class UserController extends Controller
             return response()->json(['users' => $users], 200);
         }
         catch (Exception $exception) {
-            //echo 'Error listing users: ' . $exception->getMessage();
-            //throw $exception;
-            return response()->json(['error' => 'Error listing users: ' . $exception->getMessage()], 500);
+            return response('Error listing users: ' . $exception->getMessage(), 500);
         }
     }
 
@@ -28,7 +26,7 @@ class UserController extends Controller
             return response()->json(['user' => $user], 200);
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error getting user with id: ' . $id . ', ' . $exception->getMessage()], 500);
+            return response('Error getting user with id: ' . $id . ', ' . $exception->getMessage(), 500);
         }
     }
 
@@ -40,18 +38,19 @@ class UserController extends Controller
             return response()->json(['user' => $user], 200);
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error updating user: ' . $exception->getMessage()], 500);
+            return response('Error updating user: ' . $exception->getMessage(), 500);
         }
     }
 
     public function destroy (string $id) {
 
         try {
-            User::delete($id);
-            return response()->json(['message' => 'User deleted'], 200);
+            $user = User::find($id);
+            $user->delete();
+            return response('User deleted', 200);
         }
         catch (Exception $exception) {
-            return response()->json(['error' => 'Error deleting user: ' . $exception->getMessage()], 500);
+            return response('Error deleting user: ' . $exception->getMessage(), 500);
         }
     }
 }
